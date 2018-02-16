@@ -24,6 +24,7 @@ fetch('https://www.random.org/integers/?num=10000&min=0&max=1&col=1&base=10&form
 		}
 	}
 	whiteNoise.connect(audioContext.destination);
+	setTimeout(function(){ whiteNoise.disconnect(); }, 3000);
   })
   .catch(console.log)
 </script>
