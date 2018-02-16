@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+<image id='im'></image>
+
+<script>
+fetch('https://www.random.org/integers/?num=10000&min=0&max=1&col=1&base=10&format=plain&rnd=new')
+  .then((res) => res.text())
+  .then(res => res.toString())
+  .then(res => {
+    res = res.split('\n');
+    var bufferSize = 4096;
+	window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	var audioContext = new AudioContext();
+	var whiteNoise = audioContext.createScriptProcessor(bufferSize, 1, 1);
+	whiteNoise.onaudioprocess = function(e) {
+		var output = e.outputBuffer.getChannelData(0);
+		for (var i = 0; i < bufferSize; i++) {
+			output[i] = res[i] * 2 - 1;
+		}
+	}
+	whiteNoise.connect(audioContext.destination);
+  })
+  .catch(console.log)
+</script>
+
+
+</body>
+</html>
